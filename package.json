@@ -1,5 +1,5 @@
 {
-  "name": "gdg-be-reports",
+  "name": "ecoreport-be",
   "version": "1.0.0",
   "description": "Library API with Prisma + Express + Swagger",
   "main": "dist/server.js",
