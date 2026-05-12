@@ -1,8 +1,7 @@
 import express from "express"
-
 import authRoutes from "./routes/auth.route"
 import categoryRoutes from "./routes/category.route"
-
+import profileRoutes from "./routes/profile.route"
 import { errorHandler } from "./middlewares/error.middleware"
 
 const app = express()
@@ -15,6 +14,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
     })
 })
 app.use("/api/auth", authRoutes)
+app.use("/api/profile", profileRoutes)
 app.use("/api/category", categoryRoutes)
 
 app.use(errorHandler)
