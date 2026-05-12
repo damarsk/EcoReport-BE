@@ -8,43 +8,36 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum ReportStatus {
-  pending
-  on_review
-  resolved
-  rejected
-}
-
 model User {
   id           Int      @id @default(autoincrement())
   name         String
   email        String   @unique
   phone_number String
   password     String
-  role         String     @default("2")
-  profile      Profile?
-  reports      Report[]
+  role         String   @default("2")
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
+  profile      Profile?
+  reports      Report[]
 }
 
 model Profile {
   id              Int      @id @default(autoincrement())
-  profile_picture String?
-  bio             String?
+  profile_picture String
+  bio             String
   user_id         Int      @unique
-  user            User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt
+  user            User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Category {
   id          Int      @id @default(autoincrement())
   name        String   @unique
   description String
-  reports     Report[]
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+  reports     Report[]
 }
 
 model Report {
@@ -56,8 +49,15 @@ model Report {
   location      String
   incident_date DateTime
   status        ReportStatus @default(pending)
-  user          User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  category      Category     @relation(fields: [category_id], references: [id], onDelete: Restrict)
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
+  category      Category     @relation(fields: [category_id], references: [id])
+  user          User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+enum ReportStatus {
+  pending
+  on_review
+  resolved
+  rejected
 }

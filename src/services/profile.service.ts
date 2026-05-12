@@ -15,12 +15,12 @@ export const getProfile = async (userId: number) => {
     })
 }
 
-export const updateProfile = async (userId: number, data: UpdateProfileData) => {
+export const updateProfile = async (userId: number, updateData: UpdateProfileData) => {
     return await prisma.profile.update({
         where: { user_id: userId },
         data: {
-            ...(data.profile_picture && { profile_picture: data.profile_picture }),
-            ...(data.bio && { bio: data.bio })
+            ...(updateData.profile_picture && { profile_picture: updateData.profile_picture }),
+            ...(updateData.bio && { bio: updateData.bio })
         }
     })
 }

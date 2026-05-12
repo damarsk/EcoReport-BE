@@ -8,6 +8,6 @@ import { upload } from "../config/multer"
 const router = Router()
 
 router.get("/", verifyToken, controller.getProfile)
-router.put("/", verifyToken, upload.single("profilePicture"), validate(updateProfileSchema), controller.updateProfile)
+router.put("/", verifyToken, upload.single("profile_picture"), validate(updateProfileSchema), controller.updateProfile)
 
 export default router
