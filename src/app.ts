@@ -3,14 +3,18 @@ import authRoutes from "./routes/auth.route"
 import categoryRoutes from "./routes/category.route"
 import profileRoutes from "./routes/profile.route"
 import { errorHandler } from "./middlewares/error.middleware"
+import { swaggerDocs } from "./docs/swagger"
 
 const app = express()
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ limit: '10mb', extended: true }))
+if (process.env.ENVIRONMENT === "DEV") {
+    swaggerDocs(app)
+}
 
 app.get("/", (req: express.Request, res: express.Response) => {
     res.status(200).json({
-        message: "Works!"
+        message: "Welcome to EcoReport API"
     })
 })
 app.use("/api/auth", authRoutes)

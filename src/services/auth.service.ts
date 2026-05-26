@@ -33,8 +33,8 @@ export const register = async (data: CreateUserData) => {
             password: hashedPassword,
             profile: {
                 create: {
-                    bio: null,
-                    profile_picture: null
+                    bio: "",
+                    profile_picture: ""
                 }
             }
         },

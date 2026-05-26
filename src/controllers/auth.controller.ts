@@ -27,4 +27,3 @@ export const me = async (req: Request, res: Response) => {
         res.status(400).json({ message: err.message || "Failed to fetch user info" })
     }
 }
-    

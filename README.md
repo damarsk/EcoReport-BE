@@ -39,8 +39,7 @@ src/
 ├── routes/                # API routes
 ├── schemas/               # Zod validation schemas
 ├── services/              # Business logic
-├── utils/                 # Utility functions
-└── validations/           # Validation rules
+└── utils/                 # Utility functions
 ```
 
 ## Getting Started
@@ -78,7 +77,7 @@ npm run prisma:migrate
 npm run dev
 
 # Open Swagger UI
-http://localhost:3000/api-docs
+http://localhost:3000/docs
 ```
 
 ### Production
@@ -111,7 +110,7 @@ npm run prisma:studio
 
 ## API Documentation
 
-Swagger documentation is available at `/api-docs` when the server is running.
+Swagger documentation is available at `/docs` when the server is running.
 
 ## Authentication
 
