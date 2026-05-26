@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import * as service from "../services/profile.service"
-import { v4 as uuidv4 } from "uuid"
 import path from "path"
 import { supabase } from "../config/supabase"
 
@@ -37,7 +36,7 @@ export const updateProfile = async (req: AuthenticatedRequest, res: Response) =>
             if (!allowedExts.includes(fileExt)) {
                 throw new Error('Only jpeg, jpg, png, and webp files are allowed')
             }
-            const fileName = `${uuidv4()}${fileExt}`
+            const fileName = `${crypto.randomUUID()}${fileExt}`
 
             const oldProfile = await service.getProfile(userId)
             if (oldProfile && oldProfile.profile_picture) {
