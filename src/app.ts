@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.route";
 import categoryRoutes from "./routes/category.route";
 import profileRoutes from "./routes/profile.route";
+import reportRoutes from "./routes/report.route";
 import { errorHandler } from "./middlewares/error.middleware";
 import { swaggerDocs } from "./docs/swagger";
 
@@ -29,6 +30,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/report", reportRoutes);
 
 app.use(errorHandler);
 

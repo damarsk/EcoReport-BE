@@ -14,6 +14,7 @@ tags:
   - name: Auth
   - name: Profile
   - name: Category
+  - name: Report
 
 paths:
   # ================= AUTH =================
@@ -278,6 +279,40 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+  # ================= REPORT =================
+
+  /api/report:
+    post:
+      tags: [Report]
+      summary: Create a new report
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReportRequest"
+      responses:
+        201:
+          description: Report created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -412,3 +447,75 @@ components:
       properties:
         message:
           type: string
+
+    CreateReportRequest:
+      type: object
+      required:
+        - category
+        - title
+        - description
+        - provinsi
+        - kabupaten
+        - kecamatan
+        - desa
+        - incident_date
+      properties:
+        category:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        provinsi:
+          type: string
+        kabupaten:
+          type: string
+        kecamatan:
+          type: string
+        desa:
+          type: string
+        incident_date:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            type: string
+
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        category_id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        provinsi:
+          type: string
+        kabupaten:
+          type: string
+        kecamatan:
+          type: string
+        desa:
+          type: string
+        incident_date:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [pending, on_review, resolved, rejected]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
