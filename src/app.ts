@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.route";
 import categoryRoutes from "./routes/category.route";
 import profileRoutes from "./routes/profile.route";
 import reportRoutes from "./routes/report.route";
+import questionRoutes from "./routes/question.route";
 import { errorHandler } from "./middlewares/error.middleware";
 import { swaggerDocs } from "./docs/swagger";
 
@@ -31,6 +32,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/report", reportRoutes);
+app.use("/api/question", questionRoutes);
 
 app.use(errorHandler);
 
