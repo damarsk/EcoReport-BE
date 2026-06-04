@@ -15,6 +15,7 @@ tags:
   - name: Profile
   - name: Category
   - name: Report
+  - name: Question
 
 paths:
   # ================= AUTH =================
@@ -282,6 +283,32 @@ paths:
   # ================= REPORT =================
 
   /api/report:
+    get:
+      tags: [Report]
+      summary: Get all reports
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Reports retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Report"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        403:
+          description: Forbidden (admin only)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags: [Report]
       summary: Create a new report
@@ -290,7 +317,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: "#/components/schemas/CreateReportRequest"
       responses:
@@ -308,6 +335,70 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
         401:
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/report/{id}:
+    get:
+      tags: [Report]
+      summary: Get report by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Report retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        403:
+          description: Forbidden (admin only)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        404:
+          description: Report not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ================= QUESTION =================
+
+  /api/question:
+    post:
+      tags: [Question]
+      summary: Submit a question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateQuestionRequest"
+      responses:
+        201:
+          description: Question submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestionResponse"
+        400:
+          description: Bad request
           content:
             application/json:
               schema:
@@ -481,6 +572,8 @@ components:
           type: array
           items:
             type: string
+            format: binary
+          maxItems: 5
 
     Report:
       type: object
@@ -513,6 +606,44 @@ components:
         status:
           type: string
           enum: [pending, on_review, resolved, rejected]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    CreateQuestionRequest:
+      type: object
+      required: [fullName, question, email]
+      properties:
+        fullName:
+          type: string
+        question:
+          type: string
+        email:
+          type: string
+          format: email
+
+    QuestionResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/Question"
+
+    Question:
+      type: object
+      properties:
+        id:
+          type: integer
+        fullName:
+          type: string
+        question:
+          type: string
+        email:
+          type: string
         created_at:
           type: string
           format: date-time
