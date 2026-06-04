@@ -13,6 +13,7 @@ export const swaggerDocs = (app: Express) => {
       "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.29.1/swagger-ui-bundle.min.js",
       "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.29.1/swagger-ui-standalone-preset.min.js",
     ],
+    customSiteTitle: "EcoReport API Documentation",
   };
 
   app.use(
