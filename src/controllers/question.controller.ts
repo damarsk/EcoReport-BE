@@ -4,6 +4,15 @@ import path from "path";
 import crypto from "crypto";
 import { supabase } from "../config/supabase";
 
+export const getAllQuestions = async (req: Request, res: Response) => {
+  try {
+    const questions = await service.getAllQuestions();
+    res.status(200).json(questions);
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 export const createQuestion = async (req: Request, res: Response) => {
   try {
     const { fullName, question, email } = req.body;

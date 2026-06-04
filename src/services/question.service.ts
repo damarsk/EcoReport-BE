@@ -6,6 +6,10 @@ interface ICreateQuestion {
   email: string;
 }
 
+export const getAllQuestions = async () => {
+  return await prisma.question.findMany();
+};
+
 export const createQuestion = async (data: ICreateQuestion) => {
   return await prisma.question.create({
     data: {
