@@ -57,22 +57,6 @@ export const getReportById = async (
   }
 };
 
-export const getMyReports = async (
-  req: AuthenticatedRequest,
-  res: Response,
-) => {
-  try {
-    if (!req.user) {
-      res.status(401).json({ message: "User not authenticated" });
-      return;
-    }
-    const reports = await service.getMyReports(req.user.id);
-    res.json(reports);
-  } catch (error) {
-    res.status(500).json({ message: "Failed to fetch my reports" });
-  }
-};
-
 export const createReport = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -115,6 +99,22 @@ export const createReport = async (
 
     const report = await service.createReport(reportData as any, req.user);
     res.status(201).json(report);
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+export const updateReportStatus = async (
+  req: AuthenticatedRequest,
+  res: Response,
+) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const result = await service.updateReportStatus(Number(id), status);
+
+    res.status(200).json(result);
   } catch (err: any) {
     res.status(400).json({ message: err.message });
   }

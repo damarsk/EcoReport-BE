@@ -17,6 +17,11 @@ router.post(
 );
 router.get("/", verifyToken, controller.getAllReports);
 router.get("/:id", verifyToken, controller.getReportById);
-router.get("/my-reports", verifyToken, controller.getMyReports);
+router.patch(
+  "/:id/status",
+  verifyToken,
+  requireRole(["1"]),
+  controller.updateReportStatus,
+);
 
 export default router;

@@ -18,3 +18,7 @@ export const createReportSchema = z.object({
   incident_date: z.coerce.date({ error: "Incident date is required" }),
   attachments: z.array(z.string()).optional(),
 });
+
+export const updateReportStatusSchema = z.object({
+  status: z.enum(["resolved", "rejected"]),
+});

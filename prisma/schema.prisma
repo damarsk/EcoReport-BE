@@ -61,7 +61,6 @@ model Report {
 
 enum ReportStatus {
   pending
-  on_review
   resolved
   rejected
 }

@@ -47,12 +47,6 @@ export const getReportById = async (id: number, userId: number) => {
   });
 };
 
-export const getMyReports = async (userId: number) => {
-  return await prisma.report.findMany({
-    where: { user: { id: userId } },
-  });
-};
-
 export const createReport = async (
   reportData: CreateReportData,
   user: User,
@@ -79,5 +73,15 @@ export const createReport = async (
       attachments: reportData.attachments ?? [],
       status: "pending",
     },
+  });
+};
+
+export const updateReportStatus = async (
+  id: number,
+  status: "resolved" | "rejected",
+) => {
+  return await prisma.report.update({
+    where: { id: id },
+    data: { status: status },
   });
 };

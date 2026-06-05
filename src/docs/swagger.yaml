@@ -378,6 +378,60 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+  /api/report/{id}/status:
+    patch:
+      tags: [Report]
+      summary: Update report status
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [resolved, rejected]
+      responses:
+        200:
+          description: Report status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        403:
+          description: Forbidden (admin only)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        404:
+          description: Report not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
   # ================= QUESTION =================
 
   /api/question:
