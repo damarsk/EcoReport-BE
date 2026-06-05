@@ -15,7 +15,8 @@ router.post(
   validate(createReportSchema),
   controller.createReport,
 );
-router.get("/", verifyToken, requireRole(["1"]), controller.getAllReports);
-router.get("/:id", verifyToken, requireRole(["1"]), controller.getReportById);
+router.get("/", verifyToken, controller.getAllReports);
+router.get("/:id", verifyToken, controller.getReportById);
+router.get("/my-reports", verifyToken, controller.getMyReports);
 
 export default router;

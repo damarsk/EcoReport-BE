@@ -12,25 +12,64 @@ interface AuthenticatedRequest extends Request {
   };
 }
 
-export const getAllReports = async (req: Request, res: Response) => {
+export const getAllReports = async (
+  req: AuthenticatedRequest,
+  res: Response,
+) => {
   try {
-    const reports = await service.getAllReport();
-    res.json(reports);
+    if (req.user?.role === "1") {
+      const reports = await service.getAllReport();
+      res.json(reports);
+    } else {
+      const reports = await service.getAllReport(req.user?.id);
+      res.json(reports);
+    }
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch reports" });
   }
 };
 
-export const getReportById = async (req: Request, res: Response) => {
+export const getReportById = async (
+  req: AuthenticatedRequest,
+  res: Response,
+) => {
   try {
-    const report = await service.getReportById(Number(req.params.id));
-    if (!report) {
-      res.status(404).json({ message: "Report not found" });
+    if (req.user?.role === "1") {
+      const report = await service.getReportByIdAdmin(Number(req.params.id));
+      if (!report) {
+        res.status(404).json({ message: "Report not found" });
+      } else {
+        res.status(200).json(report);
+      }
     } else {
-      res.status(200).json(report);
+      const report = await service.getReportById(
+        Number(req.params.id),
+        req.user!.id,
+      );
+      if (!report) {
+        res.status(404).json({ message: "Report not found" });
+      } else {
+        res.status(200).json(report);
+      }
     }
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch report" });
+  }
+};
+
+export const getMyReports = async (
+  req: AuthenticatedRequest,
+  res: Response,
+) => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+    const reports = await service.getMyReports(req.user.id);
+    res.json(reports);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch my reports" });
   }
 };
 

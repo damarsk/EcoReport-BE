@@ -18,13 +18,38 @@ interface User {
   role: string;
 }
 
-export const getAllReport = async () => {
-  return await prisma.report.findMany();
+export const getAllReport = async (userId?: number) => {
+  if (userId) {
+    return await prisma.report.findMany({
+      where: { user: { id: userId } },
+    });
+  } else {
+    return await prisma.report.findMany();
+  }
 };
 
-export const getReportById = async (id: number) => {
+export const getReportByIdAdmin = async (id: number) => {
   return await prisma.report.findUnique({
     where: { id },
+  });
+};
+
+export const getReportById = async (id: number, userId: number) => {
+  return await prisma.report.findUnique({
+    where: {
+      id,
+      AND: {
+        user: {
+          id: userId,
+        },
+      },
+    },
+  });
+};
+
+export const getMyReports = async (userId: number) => {
+  return await prisma.report.findMany({
+    where: { user: { id: userId } },
   });
 };
 
