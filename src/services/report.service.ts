@@ -35,7 +35,7 @@ export const getReportByIdAdmin = async (id: number) => {
 };
 
 export const getReportById = async (id: number, userId: number) => {
-  return await prisma.report.findUnique({
+  const report = await prisma.report.findUnique({
     where: {
       id,
       AND: {
@@ -45,6 +45,16 @@ export const getReportById = async (id: number, userId: number) => {
       },
     },
   });
+
+  if (!report) return null;
+
+  const baseUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/${process.env.SUPABASE_BUCKET_REPORT}`;
+
+  report.attachments = report.attachments.map(
+    (attachment) => `${baseUrl}/${attachment}`,
+  );
+
+  return report;
 };
 
 export const createReport = async (
