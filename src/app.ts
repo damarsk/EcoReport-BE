@@ -12,7 +12,7 @@ import { swaggerDocs } from "./docs/swagger";
 const app = express();
 const corsOptions = {
   origin: "*",
-  methods: "GET,PUT,POST,DELETE",
+  methods: "GET,PUT,POST,PATCH,DELETE",
   allowedHeaders: "Content-Type, Authorization",
   credentials: true,
 };
